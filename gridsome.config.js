@@ -5,14 +5,22 @@
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
 module.exports = {
-  siteName: "Gridsome",
+  siteName: "tecchaxn's blog",
   plugins: [
     {
       use: "@gridsome/source-filesystem",
       options: {
         path: "content/articles/**/*.md",
-        typeName: "article",
+        typeName: "Article",
       },
     },
   ],
+  templates: {
+    Article: [
+      {
+        path: "/articles/:id",
+        component: "./src/templates/Article.vue",
+      },
+    ],
+  },
 };
