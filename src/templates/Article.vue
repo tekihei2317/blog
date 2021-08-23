@@ -18,7 +18,13 @@ query fetchArticle($id: ID!) {
 </page-query>
 
 <script>
-export default {};
+export default {
+  metaInfo() {
+    return {
+      title: this.$page.article.title,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
