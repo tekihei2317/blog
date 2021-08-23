@@ -33,5 +33,12 @@ article {
     border-radius: 2px;
     font-size: 0.85rem;
   }
+
+  /deep/ p {
+    margin-top: 12px;
+  }
+  /deep/ li p {
+    margin-top: 0px;
+  }
 }
 </style>

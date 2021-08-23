@@ -2,7 +2,7 @@
   <Layout>
     <h1>記事一覧</h1>
     <article v-for="edge in $page.articles.edges" :key="edge.node.id">
-      <p class="post-date">2021-08-22</p>
+      <p class="post-date">{{ edge.node.createdAt }}</p>
       <h2 class="article-title">
         <g-link :to="edge.node.path">{{ edge.node.title }}</g-link>
       </h2>
@@ -15,7 +15,7 @@
 
 <page-query>
 query fetchAllPost {
-  articles: allArticle {
+  articles: allArticle(sortBy: "createdAt") {
     edges {
       node {
         id
@@ -23,6 +23,7 @@ query fetchAllPost {
         path
         title
         excerpt
+        createdAt(format: "YYYY-MM-DD")
       }
     }
   }
