@@ -47,5 +47,9 @@ article {
   /deep/ li p {
     margin-top: 0px;
   }
+
+  /deep/ th {
+    white-space: nowrap;
+  }
 }
 </style>
