@@ -12,13 +12,15 @@ html {
 /* フォント */
 body {
   /* 参考: https://ics.media/entry/200317/ */
-  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans", Meiryo, sans-serif;
+  font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
 }
 
 /* 色の定義 */
 .bg-my-white {
   background-color: #fff;
+}
+.text-my-white {
+  color: #fff;
 }
 
 .bg-my-black {
@@ -29,7 +31,7 @@ body {
   background-color: rgba(255, 255, 255, 0.16);
 }
 
-.bg-my-boundary-white {
+.bg-my-boundary-black {
   background-color: rgba(34, 40, 49, 0.16);
 }
 

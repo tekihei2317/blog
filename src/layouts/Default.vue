@@ -1,8 +1,8 @@
 <template>
-  <div class="layout">
+  <div class="px-4 pb-24 bg-my-black">
     <header class="header">
       <strong>
-        <g-link to="/">{{ $static.metadata.siteName }}</g-link>
+        <g-link to="/" class="text-2xl text-my-white">{{ $static.metadata.siteName }}</g-link>
       </strong>
       <nav class="nav">
         <!-- TODO: -->
@@ -22,18 +22,10 @@ query {
 </static-query>
 
 <style>
-.layout {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
-}
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
   height: 80px;
 }
 

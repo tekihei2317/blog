@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "develop": "gridsome develop",
+    "dev": "npm run develop",
     "explore": "gridsome explore",
     "build": "gridsome build"
   },
