@@ -1,0 +1,27 @@
+name: タスク
+description: タスクを記述するためのテンプレートです
+body:
+  - type: input
+    id: contact
+    attributes:
+      label: 目的
+      placeholder: ex. 〜を出来るようにすること
+  - type: textarea
+    id: tasks
+    attributes:
+      label: タスク一覧
+      placeholder: |
+        - [ ] タスクA
+        - [ ] タスクB
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: 完了の定義
+      placeholder: |
+        - [ ] 〜であること
+  - type: textarea
+    id: memo
+    attributes:
+      label: その他
+      placeholder: その他記述事項があれば記入します
+      value: 特になし
