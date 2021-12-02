@@ -41,7 +41,7 @@ export default {
 article {
   /deep/ h2 {
     @apply text-2xl font-bold pb-2 mt-12 mb-8;
-    border-bottom: 1px solid rgba(34, 40, 49, 0.16);
+    border-bottom: 1.5px solid rgba(34, 40, 49, 0.16);
   }
 
   /deep/ h3 {

@@ -1,15 +1,18 @@
 <template>
   <Layout>
-    <h1>記事一覧</h1>
-    <article v-for="edge in $page.articles.edges" :key="edge.node.id">
-      <p class="post-date">{{ edge.node.createdAt }}</p>
-      <h2 class="article-title">
-        <g-link :to="edge.node.path">{{ edge.node.title }}</g-link>
-      </h2>
-      <div>
-        {{ edge.node.excerpt }}
+    <div class="articles mt-4 mx-auto bg-my-white p-4 rounded-lg">
+      <h1 class="text-2xl font-bold">記事一覧</h1>
+      <div class="mt-8">
+        <article v-for="edge in $page.articles.edges" :key="edge.node.id">
+          <h2 class="text-xl font-bold hover:opacity-60">
+            <g-link :to="edge.node.path">{{ edge.node.title }}</g-link>
+          </h2>
+          <p class="mt-1 text-sm">{{ edge.node.createdAt }}</p>
+          <div class="my-4">{{ edge.node.excerpt }}</div>
+          <g-link :to="edge.node.path" class="border-b border-my-black hover:opacity-60">全文を読む→</g-link>
+        </article>
       </div>
-    </article>
+    </div>
   </Layout>
 </template>
 
@@ -33,22 +36,17 @@ query fetchAllPost {
 <script>
 export default {
   metaInfo: {
-    title: "記事一覧",
-  },
+    title: '記事一覧'
+  }
 };
 </script>
 
 <style scoped>
+.articles {
+  max-width: 800px;
+}
+
 article:not(:first-of-type) {
   margin-top: 32px;
-}
-
-.post-date {
-  font-size: 1.1rem;
-  color: #636e7d;
-}
-
-.article-title {
-  margin-top: 12px;
 }
 </style>

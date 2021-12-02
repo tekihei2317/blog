@@ -38,3 +38,11 @@ body {
 .bg-my-primary {
   background-color: #3f72af;
 }
+
+.border-my-black {
+  border-color: #222831;
+}
+
+.border-my-boundary-black {
+  border-color: rgba(34, 40, 49, 0.16);
+}
