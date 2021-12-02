@@ -14,6 +14,9 @@ module.exports = {
         typeName: "Article",
       },
     },
+    {
+      use: "gridsome-plugin-tailwindcss",
+    },
   ],
   templates: {
     Article: [

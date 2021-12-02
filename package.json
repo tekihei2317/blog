@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "develop": "gridsome develop",
+    "dev": "npm run develop",
     "explore": "gridsome explore",
     "build": "gridsome build"
   },
@@ -12,7 +13,11 @@
     "gridsome": "^0.7.0"
   },
   "devDependencies": {
+    "autoprefixer": "^9",
+    "gridsome-plugin-tailwindcss": "^4.1.1",
     "node-sass": "^6.0.1",
-    "sass-loader": "^10"
+    "postcss": "^7",
+    "sass-loader": "^10",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
