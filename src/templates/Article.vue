@@ -61,6 +61,20 @@ article {
   }
 
   /deep/ {
+    ul {
+      @apply list-disc mt-4 ml-6;
+    }
+
+    li > ul {
+      @apply mt-0;
+    }
+
+    li > p {
+      @apply mt-0;
+    }
+  }
+
+  /deep/ {
     a {
       color: #3f72af;
     }
