@@ -1,5 +1,5 @@
 <template>
-  <div class="px-4 pb-24 bg-my-black">
+  <div class="px-4 pb-24 bg-my-black min-h-screen">
     <header class="header">
       <strong>
         <g-link to="/" class="text-2xl text-my-white">{{ $static.metadata.siteName }}</g-link>
