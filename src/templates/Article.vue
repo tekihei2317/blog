@@ -85,5 +85,16 @@ article {
     border-radius: 2px;
     font-size: 0.85rem;
   }
+
+  /deep/ blockquote {
+    border-left: 5px solid #ddd;
+    padding: 1rem 0 1rem 1rem;
+    @apply mt-4 text-gray-600;
+    font-size: 0.95rem;
+
+    p {
+      margin-top: 0;
+    }
+  }
 }
 </style>
