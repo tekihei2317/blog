@@ -65,6 +65,10 @@ article {
       @apply list-disc mt-4 ml-6;
     }
 
+    li {
+      @apply mt-1;
+    }
+
     li > ul {
       @apply mt-0;
     }
