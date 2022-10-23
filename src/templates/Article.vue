@@ -52,6 +52,10 @@ article {
     @apply mt-4;
   }
 
+  /deep/ pre {
+    @apply mt-4;
+  }
+
   /deep/ {
     th,
     td {
