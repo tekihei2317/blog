@@ -5,9 +5,9 @@ createdAt: 2022-10-29
 
 ## Prismaとは
 
-[Prisma](https://www.prisma.io/)は、Node.jsとTypeScriptのためのデータベースの周辺ツールです。具体的には、データベースクライアントのPrisma Client、データベースのマイグレーションを行うPrisma Migrateなどがあります。この2つは、どちらもPrisma Schemaという独自のスキーマファイルを用います。
+[Prisma](https://www.prisma.io/)は、Node.jsとTypeScriptのためのデータベースの周辺ツールです。具体的には、データベースクライアントの[Prisma Client](https://www.prisma.io/docs/concepts/components/prisma-client)、データベースのマイグレーションを行う[Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)などがあります。この2つは、どちらも[Prisma schema](https://www.prisma.io/docs/concepts/components/prisma-schema)という独自のスキーマファイルを用います。
 
-Prisma Schemaでは、例えば以下のようにスキーマを定義します。
+Prisma schemaでは、例えば以下のようにスキーマを定義します。`generator`は生成するPrisma Clientの設定で、`datasource`は接続するデータベースの設定です。`model`は作成するテーブル（モデル）の定義です。
 
 ```ts
 generator client {
@@ -31,7 +31,7 @@ model User {
 
 ## やってみたこと
 
-Prisma Clientの使い心地を試してみました。[Realworld](https://github.com/gothinkster/realworld)という記事投稿サービスのテーブルをお題として使いました。
+Prisma Clientの使い心地を試してみました。お題には、[Realworld](https://github.com/gothinkster/realworld)という記事投稿サービスのテーブルを使いました。
 
 コードはこちら: [https://github.com/tekihei2317/prisma-playground](https://github.com/tekihei2317/prisma-playground)
 
@@ -39,13 +39,15 @@ Prisma Clientの使い心地を試してみました。[Realworld](https://githu
 
 リレーション以外の部分は、型のついたSQLのように書けるのでとっつきやすかったです。一方で、ActiveRecord系のフレームワークと比較するとコードの記述量は多くなると感じました。
 
-Prismaの非依存のリレーション（多対多など）には、中間テーブルのモデルを明示的に定義するExplicit relationと、定義しないImplicit relationの2つがあります。Implicit relationのほうが、ネストが1段階なのでクエリがシンプルに記述できます。
+Prismaで非依存のリレーション（多対多など）を表現するには、中間テーブルのモデルを明示的に定義するExplicit relationと、定義しないImplicit relationの2つがあります。Implicit relationのほうが、ネストが1段階少なくなるのでクエリがシンプルに記述できます。
 
-しかし、中間テーブルのカラム名が「A」「B」になったり、それ以外のカラムを追加できないなどの制約があります。そのため、例えば中間テーブルにタイムスタンプが必要な場合は、Explicit relationを使う必要があります。
+[Many-to-many relations](https://www.prisma.io/docs/concepts/components/prisma-schema/relations/many-to-many-relations)
+
+しかしImplicit relationには、中間テーブルのカラム名が「A」「B」になったり、それ以外のカラムを追加できないなどの制約があります。そのため、例えば中間テーブルにタイムスタンプが必要な場合は、Explicit relationを使う必要があります。
 
 ### 参照系
 
-記事とタグが多対多の関係です。これはImplicit relationで表現します。
+記事とタグが多対多の関係です。以下の例ではImplicit relationを使っています。
 
 ```prisma
 // 属性は省略
@@ -60,7 +62,7 @@ model Tag {
 }
 ```
 
-記事とタグを同時に取得するには、以下のようにincludesを使ってリレーションを取得します。
+記事とタグを同時に取得するには、以下のようにincludesを使ってリレーションを指定します。
 
 ```ts
 const articleAndTags = await prisma.article.findUnique({
@@ -69,7 +71,7 @@ const articleAndTags = await prisma.article.findUnique({
 });
 ```
 
-次はフォローの実装です。フォロー順に表示するためにフォロー日時を登録したいため、Explicit relationで表現します。同じモデル間に複数のリレーションを定義する場合は、リレーションにnameをつける必要があります。
+次はフォローの実装です。フォロー順にソートするためにフォロー日時を登録したいため、Explicit relationを使います。同じモデル間に複数のリレーションを定義する場合は、リレーションにnameをつける必要があります。
 
 ```prisma
 model User {
@@ -149,7 +151,7 @@ const follow = await prisma.follow.create({
 
 ## LaravelのEloquentとの比較
 
-Eloquentのほうがシンプルに書けます。コードは雰囲気で書いたので、間違っているところがあるかもしれません。
+試した範囲では、Eloquentのほうがシンプルに書けました。以下のコードは雰囲気で書いたので、間違っているところがあるかもしれません。
 
 ```ts
 // 記事とタグを取得する
@@ -169,17 +171,17 @@ $article->tags()->attach([$tag1, $tag2]);
 $user->followingUsers()->attach($anotherUser);
 ```
 
-帰ってくるオブジェクトがクラスのインスタンスなので、`obj->method`の記法を使って直感的に使うことができます。クラスを使うことにはデメリットもあると思います。例えばORMのAPIが肥大化することや、モデルクラスに色々詰め込まれがちなことです。
+返ってくるオブジェクトがクラスのインスタンスなので、`object->method`の記法を使って直感的に操作できます。クラスを使うことにはデメリットもあると思います。例えばORMのAPIが肥大化することや、モデルクラスに色々詰め込まれがちなことです。
 
 また、Eloquentではモデルにsetterが生えているので無法地帯だったり、SQLの戻り値に正確な型がつけにくいというデメリットがあります。
 
-こう比較してみると、ActiveRecordとは一長一短だと思いました。Prismaを実践に投入してしばらく使ってみてから、また感想を書きたいと思います。
+こう比較してみると、ActiveRecordとPrismaは一長一短だと思いました。Prismaを実践に投入してしばらく使ってみてから、また感想を書きたいと思います。
 
 ## これから調べること
 
 シーダーとデータベーステスト周りを調べようと思います。シーダーはドキュメントに記述があるので、途中で失敗したときにロールバックしてくれるかなどを確認しようと思います。
 
-データベースのテストで調べることは、テスト前にトランザクションを貼る方法、データベースのファクトリを使う方法などです。これらは以下の記事やライブラリを参考にしてみようと思います。
+データベースのテストで調べることは、テスト前にトランザクションを貼ってロールバックする方法、データベースのファクトリを使う方法などです。これらは以下の記事やライブラリを参考にしてみようと思います。
 
 - [Quramy/jest-prisma: Jest environment for integrated testing with Prisma client](https://github.com/Quramy/jest-prisma)
 - [Prisma で始める快適テストデータ生活](https://zenn.dev/seya/articles/5d384daafb1c24)
