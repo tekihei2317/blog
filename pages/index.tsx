@@ -10,7 +10,7 @@ const ArticlePreview = ({ article }: { article: Article }) => {
       <div className="my-4 overflow-hidden" style={{ height: '72px' }}>
         {article.excerpt}
       </div>
-      <a className="border-b border-my-black hover:opacity-60">全文を読む→</a>
+      <a className="border-b border-my-black hover:opacity-60 cursor-pointer">全文を読む→</a>
     </article>
   );
 };
