@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Layout } from '../components/Layout';
 import { getArticles } from '../utils/article';
 import { InferGetStaticPropsType } from 'next';
@@ -10,7 +11,9 @@ const ArticlePreview = ({ article }: { article: Article }) => {
       <div className="my-4 overflow-hidden" style={{ height: '72px' }}>
         {article.excerpt}
       </div>
-      <a className="border-b border-my-black hover:opacity-60 cursor-pointer">全文を読む→</a>
+      <Link className="border-b border-my-black hover:opacity-60 cursor-pointer" href={`/articles/${article.slug}`}>
+        全文を読む→
+      </Link>
     </article>
   );
 };

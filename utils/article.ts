@@ -4,7 +4,7 @@ import { remark } from 'remark';
 import strip from 'strip-markdown';
 
 export type Article = {
-  id: string;
+  slug: string;
   content: string;
   title: string;
   createdAt: Date;
@@ -53,7 +53,7 @@ export async function getArticles(): Promise<ArticleWithExcerpt[]> {
     const frontMatter = parseFrontMatter(matterData.data);
 
     return {
-      id: fileName,
+      slug: removeExtension(fileName),
       content: matterData.content,
       title: frontMatter.title,
       createdAt: frontMatter.createdAt,
@@ -67,4 +67,24 @@ export async function getArticles(): Promise<ArticleWithExcerpt[]> {
   });
 
   return addExcerpt(articles);
+}
+
+function removeExtension(fileName: string): string {
+  return fileName.replace(/\.md$/, '');
+}
+
+export function getArticleSlugs(): string[] {
+  return fs.readdirSync(articlesDir).map(removeExtension);
+}
+
+export function getArticleBySlug(slug: string): Article {
+  const article = fs.readFileSync(articleDir(`${slug}.md`));
+  const matterData = matter(article);
+  const frontMatter = parseFrontMatter(matterData.data);
+
+  return {
+    slug,
+    content: matterData.content,
+    ...frontMatter,
+  };
 }
