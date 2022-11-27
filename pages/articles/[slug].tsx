@@ -1,11 +1,43 @@
+import { ComponentProps } from 'react';
 import { InferGetStaticPropsType } from 'next';
 import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { getArticleSlugs } from '../../utils/article';
-import { getArticleBySlug, Article } from '../../utils/article';
+import { getArticleBySlug } from '../../utils/article';
 import { Layout } from '../../components/Layout';
 import markdownStyle from '../../styles/article.module.css';
 
 type ArticlePageProps = InferGetStaticPropsType<typeof getStaticProps>;
+
+type MarkdownProps = ComponentProps<typeof ReactMarkdown>;
+type MarkdownComponents = MarkdownProps['components'];
+
+/**
+ * React Markdownの設定を上書きする
+ */
+const markdownComponents: MarkdownComponents = {
+  code({ node, inline, className, children, ...props }) {
+    const match = /language-(\w+)/.exec(className || '');
+
+    if (inline || !match) {
+      return (
+        <code className={className} {...props}>
+          {children}
+        </code>
+      );
+    }
+    return (
+      <SyntaxHighlighter
+        children={String(children).replace(/\n$/, '')}
+        style={dracula}
+        language={match[1]}
+        PreTag="div"
+        {...props}
+      />
+    );
+  },
+};
 
 export default function ArticlePage({ article }: ArticlePageProps) {
   return (
@@ -13,7 +45,9 @@ export default function ArticlePage({ article }: ArticlePageProps) {
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg">
         <h1 className="text-2xl font-bold">{article.title}</h1>
         <p className="text-sm mt-3">投稿日: {article.createdAt.toLocaleDateString()}</p>
-        <ReactMarkdown className={`mt-4 ${markdownStyle.markdown}`}>{article.content}</ReactMarkdown>
+        <ReactMarkdown className={`mt-4 ${markdownStyle.markdown}`} components={markdownComponents}>
+          {article.content}
+        </ReactMarkdown>
       </div>
     </Layout>
   );
