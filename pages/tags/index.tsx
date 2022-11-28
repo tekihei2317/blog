@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { InferGetStaticPropsType } from 'next';
 import { Layout } from '../../components/Layout';
 import { getAllTags } from '../../utils/article';
@@ -10,7 +11,11 @@ function tagToString(tag: Tag): string {
 }
 
 const Tag = ({ tag }: { tag: Tag }) => {
-  return <div className="bg-my-primary text-white px-2 py-0.5 rounded inline-block">{tagToString(tag)}</div>;
+  return (
+    <Link className="bg-my-primary text-white px-2 py-0.5 rounded inline-block" href={`/tags/${tag.name}`}>
+      {tagToString(tag)}
+    </Link>
+  );
 };
 
 export default function TagsPage({ tags }: TagsPageProps) {

@@ -41,3 +41,7 @@ body {
 .border-my-boundary-black {
   border-color: rgba(34, 40, 49, 0.16);
 }
+
+.text-my-primary {
+  color: #3f72af;
+}
