@@ -3,13 +3,13 @@ import { InferGetStaticPropsType } from 'next';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import { getArticleSlugs } from '../../utils/article';
-import { getArticleBySlug } from '../../utils/article';
+import { getArticles, getArticleSlugs, ArticleWithExcerpt } from '../../utils/article';
 import { Layout } from '../../components/Layout';
 import markdownStyle from '../../styles/article.module.css';
 import { Tag } from '../../components/Tag';
 import Head from 'next/head';
 import { getBlogTitle } from '../../utils/blog';
+import Link from 'next/link';
 
 type ArticlePageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -43,7 +43,7 @@ const markdownComponents: MarkdownComponents = {
   },
 };
 
-export default function ArticlePage({ article }: ArticlePageProps) {
+export default function ArticlePage({ article, next, previous }: ArticlePageProps) {
   return (
     <Layout>
       <Head>
@@ -62,6 +62,28 @@ export default function ArticlePage({ article }: ArticlePageProps) {
         <ReactMarkdown className={`mt-4 ${markdownStyle.markdown}`} components={markdownComponents}>
           {article.content}
         </ReactMarkdown>
+        <div className="mt-12 flex flex-col gap-4 md:flex-row md:justify-between">
+          {previous ? (
+            <div>
+              <div className="text-sm">前の記事</div>
+              <Link href={`/articles/${previous.slug}`} className="max-w-sm text-my-primary">
+                {previous.title}
+              </Link>
+            </div>
+          ) : (
+            <div />
+          )}
+          {next ? (
+            <div>
+              <div className="text-sm">次の記事</div>
+              <Link href={`/articles/${next.slug}`} className="max-w-sm text-my-primary">
+                {next.title}
+              </Link>
+            </div>
+          ) : (
+            <div />
+          )}
+        </div>
       </div>
     </Layout>
   );
@@ -83,9 +105,23 @@ type Context = {
 };
 
 export async function getStaticProps({ params }: Context) {
-  const article = getArticleBySlug(params.slug);
+  type IndexedArticle = [ArticleWithExcerpt, number];
+
+  const articles: IndexedArticle[] = (await getArticles()).map((article, index) => [article, index]);
+  const indexedArticle = articles.find(([article]) => article.slug === params.slug);
+
+  if (!indexedArticle) {
+    throw new Error(`No article found for slug: ${params.slug}`);
+  }
+
+  const previousArticle = articles.find(([_, index]) => index === indexedArticle[1] - 1);
+  const nextArticle = articles.find(([_, index]) => index === indexedArticle[1] + 1);
 
   return {
-    props: { article },
+    props: {
+      article: indexedArticle[0],
+      previous: previousArticle?.[0],
+      next: nextArticle?.[0],
+    },
   };
 }
