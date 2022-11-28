@@ -2,12 +2,22 @@ import Link from 'next/link';
 import { Layout } from '../components/Layout';
 import { getArticles } from '../utils/article';
 import { InferGetStaticPropsType } from 'next';
+import { Tag } from '../components/Tag';
 
 const ArticlePreview = ({ article }: { article: Article }) => {
   return (
     <article>
-      <h2 className="text-xl font-bold hover:opacity-60">{article.title}</h2>
+      <Link href={`/articles/${article.slug}`}>
+        <h2 className="text-xl font-bold hover:opacity-60 cursor-pointer">{article.title}</h2>
+      </Link>
       <p className="mt-1 text-sm">{article.createdAt.toLocaleDateString()}</p>
+      {article.tags.length > 0 && (
+        <div className="mt-1 flex flex-wrap gap-1.5">
+          {article.tags.map((tag) => (
+            <Tag name={tag} />
+          ))}
+        </div>
+      )}
       <div className="my-4 overflow-hidden" style={{ height: '72px' }}>
         {article.excerpt}
       </div>
