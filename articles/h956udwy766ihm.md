@@ -1,6 +1,7 @@
 ---
 title: ISUCON練習記録（Part 1）
 createdAt: 2022-07-03
+tags: ["isucon"]
 ---
 
 ISUCON11予選で練習をした記録です。ISUCON11予選は、参加したものの初期スコアを超えられなかった苦い記憶があります。

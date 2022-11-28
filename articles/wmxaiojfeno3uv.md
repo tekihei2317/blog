@@ -1,6 +1,7 @@
 ---
 title: Prisma Clientを使ってみた感想
 createdAt: 2022-10-29
+tags: ["prisma", "nodejs", "typescript"]
 ---
 
 ## Prismaとは
