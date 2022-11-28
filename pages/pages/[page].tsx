@@ -1,13 +1,18 @@
 import { InferGetStaticPropsType } from 'next';
+import Head from 'next/head';
 import { ArticlePagination, ArticlePreview, articlesPerPage, totalPageCount } from '../../components/Article';
 import { Layout } from '../../components/Layout';
 import { getArticles } from '../../utils/article';
+import { getBlogTitle } from '../../utils/blog';
 
 type ArticlePageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function ArticlesPage({ articles, currentPage, totalPageCount }: ArticlePageProps) {
   return (
     <Layout>
+      <Head>
+        <title>{getBlogTitle()}</title>
+      </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg flex flex-col gap-8">
         {articles.map((article) => (
           <ArticlePreview article={article} key={article.slug} />

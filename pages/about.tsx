@@ -3,10 +3,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { IconContext } from 'react-icons';
 import { FaGithub, FaTwitter } from 'react-icons/fa';
+import Head from 'next/head';
+import { getBlogTitle } from '../utils/blog';
 
 export default function AboutPage() {
   return (
     <Layout>
+      <Head>
+        <title>{getBlogTitle('About')}</title>
+      </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg">
         <h1 className="text-2xl font-bold">About</h1>
         <div className="mt-8 flex gap-8">

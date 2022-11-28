@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { InferGetStaticPropsType } from 'next';
 import { Layout } from '../../components/Layout';
 import { getAllTags } from '../../utils/article';
+import Head from 'next/head';
+import { getBlogTitle } from '../../utils/blog';
 
 type TagsPageProps = InferGetStaticPropsType<typeof getStaticProps>;
 type Tag = TagsPageProps['tags'][number];
@@ -21,6 +23,9 @@ const Tag = ({ tag }: { tag: Tag }) => {
 export default function TagsPage({ tags }: TagsPageProps) {
   return (
     <Layout>
+      <Head>
+        <title>{getBlogTitle('タグ一覧')}</title>
+      </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg">
         <h1 className="text-2xl font-bold">Tags</h1>
         <div className="mt-4 flex flex-wrap gap-2">

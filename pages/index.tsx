@@ -2,12 +2,17 @@ import { Layout } from '../components/Layout';
 import { getArticles, ArticleWithExcerpt as Article } from '../utils/article';
 import { InferGetStaticPropsType } from 'next';
 import { ArticlePagination, ArticlePreview, articlesPerPage, totalPageCount } from '../components/Article';
+import Head from 'next/head';
+import { getBlogTitle } from '../utils/blog';
 
 type IndexPageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 export default function IndexPage({ articles, totalPageCount }: IndexPageProps) {
   return (
     <Layout>
+      <Head>
+        <title>{getBlogTitle()}</title>
+      </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg flex flex-col gap-8">
         {articles.map((article) => (
           <ArticlePreview article={article} key={article.slug} />

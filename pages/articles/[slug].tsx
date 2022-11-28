@@ -8,6 +8,8 @@ import { getArticleBySlug } from '../../utils/article';
 import { Layout } from '../../components/Layout';
 import markdownStyle from '../../styles/article.module.css';
 import { Tag } from '../../components/Tag';
+import Head from 'next/head';
+import { getBlogTitle } from '../../utils/blog';
 
 type ArticlePageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
@@ -44,6 +46,9 @@ const markdownComponents: MarkdownComponents = {
 export default function ArticlePage({ article }: ArticlePageProps) {
   return (
     <Layout>
+      <Head>
+        <title>{getBlogTitle(article.title)}</title>
+      </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg">
         <h1 className="text-2xl font-bold">{article.title}</h1>
         <p className="text-sm mt-3">投稿日: {article.createdAt.toLocaleDateString()}</p>
