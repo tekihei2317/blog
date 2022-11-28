@@ -31,6 +31,7 @@ const markdownComponents: MarkdownComponents = {
     return (
       <SyntaxHighlighter
         children={String(children).replace(/\n$/, '')}
+        // @ts-ignore FIXME:
         style={dracula}
         language={match[1]}
         PreTag="div"
@@ -49,7 +50,7 @@ export default function ArticlePage({ article }: ArticlePageProps) {
         {article.tags.length > 0 && (
           <div className="mt-1 flex flex-wrap gap-1.5">
             {article.tags.map((tag) => (
-              <Tag name={tag} />
+              <Tag name={tag} key={tag} />
             ))}
           </div>
         )}

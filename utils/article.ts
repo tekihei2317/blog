@@ -11,7 +11,7 @@ export type Article = {
   tags: string[];
 };
 
-type ArticleWithExcerpt = Article & {
+export type ArticleWithExcerpt = Article & {
   excerpt: string;
 };
 
@@ -121,4 +121,13 @@ export async function getAllTags(): Promise<Tag[]> {
   });
 
   return tags;
+}
+
+/**
+ * タグに該当する記事の一覧を取得する
+ */
+export async function getArticlesByTag(tag: string): Promise<ArticleWithExcerpt[]> {
+  const articles = await getArticles();
+
+  return articles.filter((article) => article.tags.includes(tag));
 }
