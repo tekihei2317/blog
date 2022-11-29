@@ -1,6 +1,7 @@
 ---
 title: ISUCON12予選参加記
 createdAt: 2022-07-25
+tags: ["isucon", "nodejs"]
 ---
 
 ISUCON12の予選にチームRakuで参加しました。メンバーは友人（同僚）のLeoと自分の2人です。最終スコアは3746で、278位でした。

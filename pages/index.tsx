@@ -1,31 +1,23 @@
 import { Layout } from '../components/Layout';
-import { getArticles } from '../utils/article';
+import { getArticles, ArticleWithExcerpt as Article } from '../utils/article';
 import { InferGetStaticPropsType } from 'next';
-
-const ArticlePreview = ({ article }: { article: Article }) => {
-  return (
-    <article>
-      <h2 className="text-xl font-bold hover:opacity-60">{article.title}</h2>
-      <p className="mt-1 text-sm">{article.createdAt.toLocaleDateString()}</p>
-      <div className="my-4 overflow-hidden" style={{ height: '72px' }}>
-        {article.excerpt}
-      </div>
-      <a className="border-b border-my-black hover:opacity-60">全文を読む→</a>
-    </article>
-  );
-};
+import { ArticlePagination, ArticlePreview, articlesPerPage, totalPageCount } from '../components/Article';
+import Head from 'next/head';
+import { getBlogTitle } from '../utils/blog';
 
 type IndexPageProps = InferGetStaticPropsType<typeof getStaticProps>;
 
-type Article = IndexPageProps['articles'][number];
-
-export default function IndexPage({ articles }: IndexPageProps) {
+export default function IndexPage({ articles, totalPageCount }: IndexPageProps) {
   return (
     <Layout>
+      <Head>
+        <title>{getBlogTitle()}</title>
+      </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg flex flex-col gap-8">
         {articles.map((article) => (
-          <ArticlePreview article={article} key={article.title} />
+          <ArticlePreview article={article} key={article.slug} />
         ))}
+        <ArticlePagination currentPage={1} totalPageCount={totalPageCount} className="mt-4" />
       </div>
     </Layout>
   );
@@ -35,6 +27,9 @@ export async function getStaticProps() {
   const articles = await getArticles();
 
   return {
-    props: { articles },
+    props: {
+      articles: articles.slice(0, articlesPerPage),
+      totalPageCount: totalPageCount(articles.length),
+    },
   };
 }
