@@ -63,21 +63,21 @@ export default function ArticlePage({ article, next, previous }: ArticlePageProp
           {article.content}
         </ReactMarkdown>
         <div className="mt-12 flex flex-col gap-4 md:flex-row md:justify-between">
-          {previous ? (
-            <div>
-              <div className="text-sm">前の記事</div>
-              <Link href={`/articles/${previous.slug}`} className="max-w-sm text-my-primary">
-                {previous.title}
-              </Link>
-            </div>
-          ) : (
-            <div />
-          )}
           {next ? (
             <div>
               <div className="text-sm">次の記事</div>
               <Link href={`/articles/${next.slug}`} className="max-w-sm text-my-primary">
                 {next.title}
+              </Link>
+            </div>
+          ) : (
+            <div />
+          )}
+          {previous ? (
+            <div>
+              <div className="text-sm">前の記事</div>
+              <Link href={`/articles/${previous.slug}`} className="max-w-sm text-my-primary">
+                {previous.title}
               </Link>
             </div>
           ) : (
@@ -114,8 +114,8 @@ export async function getStaticProps({ params }: Context) {
     throw new Error(`No article found for slug: ${params.slug}`);
   }
 
-  const previousArticle = articles.find(([_, index]) => index === indexedArticle[1] - 1);
-  const nextArticle = articles.find(([_, index]) => index === indexedArticle[1] + 1);
+  const previousArticle = articles.find(([_, index]) => index === indexedArticle[1] + 1);
+  const nextArticle = articles.find(([_, index]) => index === indexedArticle[1] - 1);
 
   return {
     props: {
