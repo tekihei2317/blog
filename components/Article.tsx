@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Tag } from './Tag';
 import { ArticleWithExcerpt as Article } from '../utils/article';
 import { ComponentProps } from 'react';
+import { formatDate } from '../utils/blog';
 
 export const ArticlePreview = ({ article }: { article: Article }) => {
   return (
@@ -9,7 +10,7 @@ export const ArticlePreview = ({ article }: { article: Article }) => {
       <Link href={`/articles/${article.slug}`}>
         <h2 className="text-xl font-bold hover:opacity-60 cursor-pointer">{article.title}</h2>
       </Link>
-      <p className="mt-1 text-sm">{article.createdAt.toLocaleDateString()}</p>
+      <p className="mt-1 text-sm">{formatDate(article.createdAt)}</p>
       {article.tags.length > 0 && (
         <div className="mt-1 flex flex-wrap gap-1.5">
           {article.tags.map((tag) => (

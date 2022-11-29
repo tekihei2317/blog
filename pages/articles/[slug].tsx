@@ -8,7 +8,7 @@ import { Layout } from '../../components/Layout';
 import markdownStyle from '../../styles/article.module.css';
 import { Tag } from '../../components/Tag';
 import Head from 'next/head';
-import { getBlogTitle } from '../../utils/blog';
+import { formatDate, getBlogTitle } from '../../utils/blog';
 import Link from 'next/link';
 
 type ArticlePageProps = InferGetStaticPropsType<typeof getStaticProps>;
@@ -51,7 +51,7 @@ export default function ArticlePage({ article, next, previous }: ArticlePageProp
       </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg">
         <h1 className="text-2xl font-bold">{article.title}</h1>
-        <p className="text-sm mt-3">投稿日: {article.createdAt.toLocaleDateString()}</p>
+        <p className="text-sm mt-3">投稿日: {formatDate(article.createdAt)}</p>
         {article.tags.length > 0 && (
           <div className="mt-1 flex flex-wrap gap-1.5">
             {article.tags.map((tag) => (
