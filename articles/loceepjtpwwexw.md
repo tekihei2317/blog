@@ -1,6 +1,7 @@
 ---
 title: private-isuで練習した振り返り
 createdAt: 2022-07-18
+tags: ["isucon", "database"]
 ---
 
 private-isuを2日で合計8h~くらい遊んだので、やったこと・学んだこと・改善点をまとめようと思います。

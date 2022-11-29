@@ -30,7 +30,7 @@ export default function TagsPage({ tags }: TagsPageProps) {
         <h1 className="text-2xl font-bold">Tags</h1>
         <div className="mt-4 flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <Tag tag={tag} />
+            <Tag tag={tag} key={tag.name} />
           ))}
         </div>
       </div>

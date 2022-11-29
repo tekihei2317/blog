@@ -1,6 +1,7 @@
 ---
 title: 継続するために無理をしない
 createdAt: 2022-03-05
+tags: ["セルフマネジメント"]
 ---
 
 [大切なことだけやりなさい](https://www.amazon.co.jp/dp/B01IHFLN7S/ref=dp-kindle-redirect?_encoding=UTF8&btkr=1)（フォーカル・ポイント）に書かれていた、以下の言葉が最近のお気に入りです。

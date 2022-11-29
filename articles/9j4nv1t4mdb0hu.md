@@ -1,6 +1,7 @@
 ---
 title: React Native + tRPCの構成を試してみた
 createdAt: 2022-10-23
+tags: ["reactnative", "trpc"]
 ---
 
 仕事でモバイル+Web管理画面+バックエンドを一人で作ることになりました。弊社はバックエンドはLaravelで作ることが多いのですが、全部TypeScriptで書きたかったので、最近話題になっていたtRPCを使った構成を試してみました。

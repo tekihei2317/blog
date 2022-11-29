@@ -1,6 +1,7 @@
 ---
 title: 本を読む速さを理解の目安に使う
 createdAt: 2022-05-16
+tags: ["読書", "学習"]
 ---
 
 「本を速く読むためには知識が重要」というのを見て、mizchiさんが[ブルーベリー本](https://www.amazon.co.jp/%E3%83%97%E3%83%AD%E3%82%92%E7%9B%AE%E6%8C%87%E3%81%99%E4%BA%BA%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AETypeScript%E5%85%A5%E9%96%80-%E5%AE%89%E5%85%A8%E3%81%AA%E3%82%B3%E3%83%BC%E3%83%89%E3%81%AE%E6%9B%B8%E3%81%8D%E6%96%B9%E3%81%8B%E3%82%89%E9%AB%98%E5%BA%A6%E3%81%AA%E5%9E%8B%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9%E3%81%BE%E3%81%A7-Software-Design-plus-%E9%88%B4%E6%9C%A8-ebook/dp/B09Y527YPV/ref=sr_1_5?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&crid=1JKZNMUFCN4HH&keywords=typescript&qid=1652653661&sprefix=typescrip%2Caps%2C226&sr=8-5)を爆速で読んでいたのを思い出してなるほどとなりました。この考えを少し掘り下げてみると、「本を読む速さを理解の目安にできる」という結論になったので、それについて書きます。
