@@ -1,0 +1,60 @@
+/* markdownの中身のスタイル */
+.markdown h2 {
+  @apply text-2xl font-bold pb-2 mt-12 mb-8;
+  border-bottom: 1.5px solid rgba(34, 40, 49, 0.16);
+}
+
+.markdown h3 {
+  @apply text-xl font-bold mt-8 mb-4;
+}
+
+.markdown p {
+  @apply mt-4;
+}
+
+.markdown pre {
+  @apply mt-4;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid rgba(34, 40, 49, 0.16);
+  @apply px-2 py-1;
+}
+
+.markdown ul {
+  @apply list-disc mt-4 ml-6;
+}
+
+.markdown li {
+  @apply mt-1;
+}
+
+.markdown li > ul {
+  @apply mt-0;
+}
+
+.markdown li > p {
+  @apply mt-0;
+}
+
+.markdown a {
+  color: #3f72af;
+}
+
+.markdown code {
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-size: 0.85rem;
+}
+
+.markdown blockquote {
+  border-left: 5px solid #ddd;
+  padding: 1rem 0 1rem 1rem;
+  @apply mt-4 text-gray-600;
+  font-size: 0.95rem;
+}
+
+.markdown blockquote p {
+  margin-top: 0;
+}
