@@ -4,7 +4,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "new:article": "touch articles/$(./scripts/generate-slug.sh).md"
   },
   "dependencies": {
     "babel-plugin-superjson-next": "^0.4.5",
