@@ -43,13 +43,19 @@ const markdownComponents: MarkdownComponents = {
   },
 };
 
+function createOgDescription(article: ArticleWithExcerpt): string {
+  const descriptionLength = 128;
+
+  return article.excerpt.replace(/\n/g, '').substring(0, descriptionLength - 1) + '…';
+}
+
 export default function ArticlePage({ article, next, previous }: ArticlePageProps) {
   return (
     <Layout>
       <Head>
         <title>{getBlogTitle(article.title)}</title>
         <meta property="og:title" content={article.title} key="og:title" />
-        <meta property="og:description" content={article.excerpt} key="og:description" />
+        <meta property="og:description" content={createOgDescription(article)} key="og:description" />
       </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg">
         <h1 className="text-2xl font-bold">{article.title}</h1>

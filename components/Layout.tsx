@@ -14,6 +14,7 @@ export const Layout = ({ children }: LayoutProps) => {
         <meta property="og:type" content="article" />
         <meta property="og:title" content={blogTitle} key="og:title" />
         <meta property="og:url" content={blogUrl} />
+        <meta property="og:description" content="tekihei2317のブログ" key="og:description" />
       </Head>
       <div className="px-4 pb-24 bg-my-black min-h-screen">
         <header className="h-20 flex justify-between items-center max-w-6xl mx-auto">
