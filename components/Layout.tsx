@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import { blogTitle, blogUrl } from '../utils/blog';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -10,12 +11,16 @@ export const Layout = ({ children }: LayoutProps) => {
     <>
       <Head>
         <link rel="icon" href="favicon.png" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={blogTitle} key="og:title" />
+        <meta property="og:url" content={blogUrl} />
+        <meta property="og:description" content="tekihei2317のブログ" key="og:description" />
       </Head>
       <div className="px-4 pb-24 bg-my-black min-h-screen">
         <header className="h-20 flex justify-between items-center max-w-6xl mx-auto">
           <strong>
             <Link className="text-2xl text-white cursor-pointer" href="/">
-              tekihei2317's blog
+              {blogTitle}
             </Link>
           </strong>
           <nav className="nav flex gap-4">
