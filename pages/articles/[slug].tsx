@@ -48,6 +48,8 @@ export default function ArticlePage({ article, next, previous }: ArticlePageProp
     <Layout>
       <Head>
         <title>{getBlogTitle(article.title)}</title>
+        <meta property="og:title" content={article.title} key="og:title" />
+        <meta property="og:description" content={article.excerpt} key="og:description" />
       </Head>
       <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg">
         <h1 className="text-2xl font-bold">{article.title}</h1>
