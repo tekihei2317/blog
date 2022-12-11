@@ -1,6 +1,7 @@
 import { ComponentProps } from 'react';
 import { InferGetStaticPropsType } from 'next';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import { getArticles, getArticleSlugs, ArticleWithExcerpt } from '../../utils/article';
@@ -67,7 +68,11 @@ export default function ArticlePage({ article, next, previous }: ArticlePageProp
             ))}
           </div>
         )}
-        <ReactMarkdown className={`mt-4 ${markdownStyle.markdown}`} components={markdownComponents}>
+        <ReactMarkdown
+          className={`mt-4 ${markdownStyle.markdown}`}
+          components={markdownComponents}
+          remarkPlugins={[remarkGfm]}
+        >
           {article.content}
         </ReactMarkdown>
         <div className="mt-12 flex flex-col gap-4 md:flex-row md:justify-between">
