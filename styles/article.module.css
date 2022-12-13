@@ -62,3 +62,7 @@
 .markdown code {
   @apply bg-gray-100 rounded-sm;
 }
+
+.markdown hr {
+  @apply mt-4 border;
+}
