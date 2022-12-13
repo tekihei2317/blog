@@ -12,6 +12,7 @@ export const Layout = ({ children }: LayoutProps) => {
       <Head>
         <link rel="icon" href="favicon.png" />
         <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="tekihei2317's blog" />
         <meta property="og:title" content={blogTitle} key="og:title" />
         <meta property="og:url" content={blogUrl} />
         <meta property="og:description" content="tekihei2317のブログ" key="og:description" />
