@@ -16,6 +16,10 @@
   @apply mt-4;
 }
 
+.markdown table {
+  @apply mt-4;
+}
+
 .markdown th,
 .markdown td {
   border: 1px solid rgba(34, 40, 49, 0.16);
@@ -44,8 +48,8 @@
 
 .markdown code {
   padding: 2px 4px;
-  border-radius: 2px;
   font-size: 0.85rem;
+  @apply bg-gray-100 rounded-sm;
 }
 
 .markdown blockquote {
