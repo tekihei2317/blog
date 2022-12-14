@@ -18,7 +18,7 @@ export const ArticlePreview = ({ article }: { article: Article }) => {
           ))}
         </div>
       )}
-      <div className="my-4 overflow-hidden" style={{ height: '72px' }}>
+      <div className="my-4 overflow-hidden" style={{ height: '4.5rem' }}>
         {article.excerpt}
       </div>
       <Link className="border-b border-my-black hover:opacity-60 cursor-pointer" href={`/articles/${article.slug}`}>
