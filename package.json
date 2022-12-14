@@ -17,9 +17,9 @@
     "react-icons": "^4.6.0",
     "react-markdown": "^8.0.3",
     "react-syntax-highlighter": "^15.5.0",
+    "rehype-raw": "^6.1.1",
     "remark": "^14.0.2",
     "remark-gfm": "^3.0.1",
-    "remark-html": "^15.0.1",
     "strip-markdown": "^5.0.0",
     "superjson": "^1.11.0"
   },
