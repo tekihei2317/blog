@@ -24,6 +24,7 @@
     "superjson": "^1.11.0"
   },
   "devDependencies": {
+    "@types/gtag.js": "^0.0.12",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-syntax-highlighter": "^15.5.5",
