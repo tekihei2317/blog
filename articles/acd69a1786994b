@@ -1,0 +1,147 @@
+---
+title: "今日のプログラミング: prisma-fabbricaとTypeScriptのタプル"
+createdAt: 2023-02-28
+tags: ["プログラミング", "typescript", "prisma"]
+---
+
+[prisma-fabbrica](https://github.com/Quramy/prisma-fabbrica)というファクトリのライブラリを使って、次のようなテストコードを書いていました。
+
+```ts
+const user = await UserFactory.create();
+const [post1, post2] = await PorstFactory.createList([
+  { user: { connect: user.id } },
+  { user: { connect: user.id } },
+])
+```
+
+`noUncheckedIndexedAccess`をtrueにしている場合、`post1`と`post2`が`Post | undefined`になってしまう問題があります。`PostFactory.createList`の戻り値が`Post[]`型であるためです。
+
+戻り値を`[Post, Post]`にするべきなのかなと一瞬思いましたが、PrismaのcreateManyの戻り値が配列であることを考えると、ライブラリの責任の範囲を超えていそうです。そこで、別の方法を考えることにしました。
+
+## ts-array-length
+
+最近uhyoさんが[ts-array-length](https://github.com/uhyo/ts-array-length)というライブラリを公開されていたことを思い出しました。`ts-array-length`は、配列をタプルに絞り込むためのユーティリティです。
+
+```ts
+import { hasLength } from 'ts-array-length'
+
+// const arr: string[]
+
+if (hasLength(arr, 1)) {
+  // arr: readonly [string, string]
+  const str: string = arr[0];
+}
+```
+
+`hasLength`の実装は以下のようになっています。いわゆるユーザー定義型ガードです。
+
+```ts
+export function hasLength<T, N extends number>(
+  arr: readonly T[],
+  length: N,
+): arr is ReadonlyArrayExactLength<T, N> {
+  return arr.length === length;
+}
+```
+
+テストの中では条件分岐を書くよりアサーションをしたほうがいい気がするので、上記を参考にしてアサーション関数を作ります（まだ試せていない）。
+
+```ts
+export function assertHasLength<T, N extends number>(
+  arr: readonly T[],
+  length: N,
+): asserts arr is ReadonlyArrayExactLength<T, N> {
+  if (arr.length !== length) {
+    throw new Error(`Array length is expected to be ${length}, but got ${arr.length}`);
+  }
+}
+```
+
+これで、初めのテストコードは以下のように修正できると思います。
+
+```ts
+const user = await UserFactory.create();
+const posts = await PorstFactory.createList([
+	{ user: { connect: user.id } },
+	{ user: { connect: user.id } },
+])
+assertHasLength(posts, 2);
+// post1: Post, post2: Post
+const [post1, post2] = posts;
+```
+
+## 仕組みを調べる
+
+さて、気になるのは`ReadonlyArrayExactLength<T, N>`型です。これは、要素がTの長さNのタプルを作る型のようですです。
+
+```ts
+// readonly [string, string]
+ReadonlyArrayExactLength<string, 2>
+```
+
+実装は次のようになっていました。ユーティリティ型にあってもいいような気がするので、追加されると嬉しいですね。
+
+[ts-array-length/types.ts at main · uhyo/ts-array-length](https://github.com/uhyo/ts-array-length/blob/main/src/types.ts)
+
+```ts
+export type ReadonlyArrayExactLength<T, N extends number> = N extends number
+  ? number extends N
+    ? readonly T[]
+    : IsCertainlyInteger<N> extends true
+    ? ReadonlyArrayExactLengthRec<T, N, readonly []>
+    : readonly T[]
+  : never;
+
+type ReadonlyArrayExactLengthRec<
+  T,
+  L extends number,
+  Result extends readonly T[],
+> = Result["length"] extends L
+  ? Result
+  : ReadonlyArrayExactLengthRec<T, L, readonly [T, ...Result]>;
+```
+
+`IsCertainlyInteger<N>`は、Nが非負整数のリテラル型であるかどうかを判定しています。これは、マイナスの数や少数を渡したときに無限ループを防ぐためのものです。
+
+[ts-array-length/typeUtils.ts at main · uhyo/ts-array-length](https://github.com/uhyo/ts-array-length/blob/main/src/typeUtils.ts)
+
+分かりやすくするために簡略化したものが以下です。
+
+```ts
+type Tuple<Value, Length extends number, Result extends Value[] = []> = 
+  Result['length'] extends Length
+    ? Result
+    : Tuple<Value, Length, [...Result, Value]>
+
+// Test: [string, string, string]
+type Test = Tuple<string, 3>
+```
+
+使っているのは、`Array['length']`を使って再帰するテクニックです。`1 | 2 | 3 | ...`のような型もこのテクニックを使うと作れます。
+
+参考: [Generate literal type for numbers range in TypeScript](https://catchts.com/range-numbers)
+
+## 横道にそれる
+
+最初に諦めましたが、`PostFactory`の戻り値をタプルにする方法を考えてみます。そのためには、長さNの`CreatePostInput`のタプルを受け取り、長さNの`Post`のタプル返す関数を定義する必要があります。
+
+そのためには引数をタプルとして受け取る必要があります。これは以下のようにするとできます。
+
+```ts
+function createList<T extends CreatePostInput[]>(inputs: [...T]): Tuple<Post, T['length']> {
+  return inputs.map((input, index) => ({ ...input, id: index + 1})) as Tuple<Post, T['length']>;
+}
+
+// posts: [Post, Post]
+const posts = createList([{ title: 'test' }, { title: 'test' }])
+```
+
+参考: [TypeScript 4.0で導入されるVariadic Tuple Typesをさっそく使いこなす - Qiita](https://qiita.com/uhyo/items/7e31bbd93a80ce9cec84)
+
+`array.map`の戻り値をタプルにする方法が分からなかったので、もし分かる方がいらっしゃったら教えていただけると助かります。
+
+## まとめ
+
+- ts-array-lengthを使うと、`noUncheckedIndexedAccess: true`の場合の配列のタプルへの絞り込みができる
+- 長さがNのタプルを作るユーティリティ型は存在しないので、再帰型定義を使って自作する必要がある
+- 引数を配列ではなくタプルとして受け取る場合は、引数の型を`[...T]`とする（Tは配列型）
