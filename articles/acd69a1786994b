@@ -16,7 +16,7 @@ const [post1, post2] = await PorstFactory.createList([
 
 `noUncheckedIndexedAccess`をtrueにしている場合、`post1`と`post2`が`Post | undefined`になってしまう問題があります。`PostFactory.createList`の戻り値が`Post[]`型であるためです。
 
-戻り値を`[Post, Post]`にするべきなのかなと一瞬思いましたが、PrismaのcreateManyの戻り値が配列であることを考えると、ライブラリの責任の範囲を超えていそうです。そこで、別の方法を考えることにしました。
+戻り値を`[Post, Post]`にするべきなのかなと一瞬思いましたが、PrismaのcreateManyの戻り値が配列であることを考えると、ライブラリの責任の範囲を超えていそうです。そのため、使用側でなんとかすることにしました。
 
 ## ts-array-length
 
@@ -57,13 +57,13 @@ export function assertHasLength<T, N extends number>(
 }
 ```
 
-これで、初めのテストコードは以下のように修正できると思います。
+これを使うと、初めのテストコードは以下のように修正できます。
 
 ```ts
 const user = await UserFactory.create();
 const posts = await PorstFactory.createList([
-	{ user: { connect: user.id } },
-	{ user: { connect: user.id } },
+  { user: { connect: user.id } },
+  { user: { connect: user.id } },
 ])
 assertHasLength(posts, 2);
 // post1: Post, post2: Post
@@ -72,7 +72,7 @@ const [post1, post2] = posts;
 
 ## 仕組みを調べる
 
-さて、気になるのは`ReadonlyArrayExactLength<T, N>`型です。これは、要素がTの長さNのタプルを作る型のようですです。
+さて、気になるのは`ReadonlyArrayExactLength<T, N>`型です。これは名前の通り、要素がTで長さがNのreadonlyなタプルを作る型です。
 
 ```ts
 // readonly [string, string]
@@ -117,7 +117,7 @@ type Tuple<Value, Length extends number, Result extends Value[] = []> =
 type Test = Tuple<string, 3>
 ```
 
-使っているのは、`Array['length']`を使って再帰するテクニックです。`1 | 2 | 3 | ...`のような型もこのテクニックを使うと作れます。
+使われているのは、`Array['length']`を使って再帰するテクニックです。`1 | 2 | 3 | ...`のような型もこのテクニックを使うと作れます。
 
 参考: [Generate literal type for numbers range in TypeScript](https://catchts.com/range-numbers)
 
@@ -125,7 +125,7 @@ type Test = Tuple<string, 3>
 
 最初に諦めましたが、`PostFactory`の戻り値をタプルにする方法を考えてみます。そのためには、長さNの`CreatePostInput`のタプルを受け取り、長さNの`Post`のタプル返す関数を定義する必要があります。
 
-そのためには引数をタプルとして受け取る必要があります。これは以下のようにするとできます。
+引数をタプルとして受け取るには、Tを配列型として`[...T]`のようにします。
 
 ```ts
 function createList<T extends CreatePostInput[]>(inputs: [...T]): Tuple<Post, T['length']> {
@@ -142,6 +142,6 @@ const posts = createList([{ title: 'test' }, { title: 'test' }])
 
 ## まとめ
 
-- ts-array-lengthを使うと、`noUncheckedIndexedAccess: true`の場合の配列のタプルへの絞り込みができる
+- `noUncheckedIndexedAccess`がtrueの場合は、ts-array-lengthを使うと配列からタプルへ絞り込める
 - 長さがNのタプルを作るユーティリティ型は存在しないので、再帰型定義を使って自作する必要がある
 - 引数を配列ではなくタプルとして受け取る場合は、引数の型を`[...T]`とする（Tは配列型）
