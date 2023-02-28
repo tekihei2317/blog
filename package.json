@@ -5,7 +5,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "new:article": "touch articles/$(./scripts/generate-slug.sh).md"
+    "new:article": "./scripts/create-article.sh"
   },
   "dependencies": {
     "babel-plugin-superjson-next": "^0.4.5",

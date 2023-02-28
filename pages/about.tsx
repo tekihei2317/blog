@@ -20,9 +20,9 @@ export default function AboutPage() {
             <div className="text-center mt-2 font-bold text-lg">tekihei2317</div>
           </div>
           <div>
-            <p className="text-lg">東京でソフトウェアエンジニアをしているひと。</p>
+            <p className="text-lg">ソフトウェアエンジニアをしているひと。</p>
             <p className="text-lg mt-2">文章とコードを書くのが好き。</p>
-            <p className="text-lg mt-2">最近はどうやったら一日に満足できるかを考えている。</p>
+            <p className="text-lg mt-2">最近は早寝早起きできるように習慣を作り直している。</p>
             <div className="mt-4 flex gap-4">
               <IconContext.Provider value={{ size: '26px' }}>
                 <Link href="https://twitter.com/tekihei2317_">
