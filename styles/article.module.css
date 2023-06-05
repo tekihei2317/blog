@@ -46,10 +46,12 @@
   color: #3f72af;
 }
 
+.markdown pre > code {
+  @apply rounded-md;
+}
+
 .markdown code {
-  padding: 2px 4px;
   font-size: 0.85rem;
-  @apply bg-gray-100 rounded-sm;
 }
 
 .markdown blockquote {
@@ -61,10 +63,6 @@
 
 .markdown blockquote p {
   margin-top: 0;
-}
-
-.markdown code {
-  @apply bg-gray-100 rounded-sm;
 }
 
 .markdown hr {

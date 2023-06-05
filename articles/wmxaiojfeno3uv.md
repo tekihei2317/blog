@@ -50,7 +50,7 @@ Prismaで非依存のリレーション（多対多など）を表現するに�
 
 記事とタグが多対多の関係です。以下の例ではImplicit relationを使っています。
 
-```prisma
+```ts
 // 属性は省略
 model Article {
   id   Int   @id @default(autoincrement())
@@ -74,7 +74,7 @@ const articleAndTags = await prisma.article.findUnique({
 
 次はフォローの実装です。フォロー順にソートするためにフォロー日時を登録したいため、Explicit relationを使います。同じモデル間に複数のリレーションを定義する場合は、リレーションにnameをつける必要があります。
 
-```prisma
+```ts
 model User {
   id             Int      @id @default(autoincrement())
   followers      Follow[] @relation("Followee") // Followのうち、自分がフォローされているもの
