@@ -8,8 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default async function IndexPage() {
-  const articles = (await getArticles()).slice(0, articlesPerPage);
-  const pageCount = totalPageCount(articles.length);
+  const allArticles = await getArticles();
+  const articles = allArticles.slice(0, articlesPerPage);
+  const pageCount = totalPageCount(allArticles.length);
 
   return (
     <div className="bg-white max-w-4xl mx-auto p-4 rounded-lg flex flex-col gap-8">
