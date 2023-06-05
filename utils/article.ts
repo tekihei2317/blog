@@ -101,7 +101,7 @@ export function getArticleBySlug(slug: string): Article {
   };
 }
 
-type Tag = {
+export type Tag = {
   name: string;
   count: number;
 };
