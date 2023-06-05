@@ -9,6 +9,9 @@ type LayoutProps = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : `http://localhost:${process.env.PORT}`
+  ),
   icons: {
     icon: '/favicon.png',
   },
