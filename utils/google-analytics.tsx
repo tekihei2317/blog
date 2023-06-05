@@ -1,5 +1,6 @@
 // 参考: https://panda-program.com/posts/nextjs-google-analytics
-import { useRouter } from 'next/router';
+'use client';
+import { usePathname } from 'next/navigation';
 import Script from 'next/script';
 import { useEffect } from 'react';
 
@@ -13,46 +14,39 @@ export const countPageView = (path: string) => {
 };
 
 export const usePageView = () => {
-  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    if (!existsGaId) {
+    if (!existsGaId || pathname === null) {
       return;
     }
-
-    const handleRouteChange = (path: string) => {
-      countPageView(path);
-    };
-
-    router.events.on('routeChangeComplete', handleRouteChange);
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange);
-    };
-  }, [router.events]);
+    countPageView(pathname);
+  }, [pathname]);
 };
 
-export const GoogleAnalytics = () => (
-  <>
-    {existsGaId && (
-      <>
-        <Script
-          defer
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script
-          defer
-          dangerouslySetInnerHTML={{
-            __html: `
+export const GoogleAnalytics = () => {
+  usePageView();
+  if (!existsGaId) return null;
+
+  return (
+    <>
+      <Script
+        defer
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        strategy="afterInteractive"
+      />
+      <Script
+        defer
+        dangerouslySetInnerHTML={{
+          __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', '${GA_MEASUREMENT_ID}');
             `,
-          }}
-          strategy="afterInteractive"
-        />
-      </>
-    )}
-  </>
-);
+        }}
+        strategy="afterInteractive"
+      />
+    </>
+  );
+};

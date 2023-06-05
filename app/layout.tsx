@@ -2,6 +2,7 @@ import '../styles/global.css';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { blogTitle, blogUrl } from '../utils/blog';
+import { GoogleAnalytics } from '../utils/google-analytics';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -40,6 +41,7 @@ export default function Layout({ children }: LayoutProps) {
               </Link>
             </nav>
           </header>
+          <GoogleAnalytics />
           {children}
         </div>
       </body>
