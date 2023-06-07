@@ -1,7 +1,7 @@
 
 #!/bin/bash
 
-ARTICLE_PATH=articles/$(./scripts/generate-slug.sh)
+ARTICLE_PATH="articles/$(./scripts/generate-slug.sh).md"
 
 touch $ARTICLE_PATH
 
