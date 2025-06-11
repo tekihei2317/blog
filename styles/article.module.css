@@ -8,6 +8,10 @@
   @apply text-xl font-bold mt-8 mb-4;
 }
 
+.markdown h4 {
+  @apply font-bold mt-4 mb-2;
+}
+
 .markdown p {
   @apply mt-4;
 }
